@@ -10,3 +10,4 @@ const projects = config.projects;
 
 await listSheduledJobs(config, projects);
 await listPrs(config, projects);
+await listTicketsToTest(config, projects);
