@@ -1,24 +1,20 @@
 import c from 'ansi-colors'
 
 const describeRun = (run) => {
-  const status = (status) => (status === 'failed' ? c.redBright(`FAILED`) : c.green(`SUCCESS`))
+  const status = (status) => (status === 'failed' ? c.bgRedBright(` `) : c.bgGreen(` `))
   const [workflow, jobs] = run
-  const output = `
-\t* ${workflow.started} ${status(workflow.status)}`
+  const output = `${workflow.started} ${jobs.map((job) => `${status(job.status)}`).join('')}`
 
   if (workflow.status !== 'success') {
     return (
-      output +
-      `
-${jobs
-  .filter((job) => job.status !== 'success')
-  .map((job) => `\t* ${job.name}: ${status(job.status)}`)
-  .join('\n')}
-${c.gray(`Url: ${workflow.url}`)}`
+      output + `\n${c.gray(workflow.url)}`
     )
   }
   return output
 }
 
 export const describeJobs = ([name, runs]) =>
-  `\n${runs.map((run) => `${c.bold(name)}: ${describeRun(run)}`).join('\n')}\n`
+  `${
+    runs.filter(run => run[0].status !== 'success')
+  .map((run) => `${c.bold(name)}: ${describeRun(run)}`)
+  .join('\n')}`
