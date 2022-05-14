@@ -41,7 +41,7 @@ export class CircleClient {
     )
 
   getScheduledJobs = async (name, previous = 1, slugPrefix = this.slugPrefix) => {
-    const { items, next_page_token } = await get(`/project/${slugPrefix}${name}/pipeline`)
+    const { items, next_page_token } = await get(`/project/${slugPrefix}/${name}/pipeline`)
 
     const pipelines = (items || [])
       .filter((p) => p.trigger.type === 'schedule')
