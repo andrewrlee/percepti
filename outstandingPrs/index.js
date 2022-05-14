@@ -1,7 +1,7 @@
 import c from 'ansi-colors'
 
 import { describePulls } from './cli.js'
-import { GithubClient } from './githubClient.js'
+import { GithubClient } from '../__shared/githubClient.js'
 
 export default async function run(config, projects) {
   console.log(c.bold('OUTSTANDING PULL REQUESTS'))

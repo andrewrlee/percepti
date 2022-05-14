@@ -1,6 +1,6 @@
 import c from 'ansi-colors'
 
-import { ProjectClient } from './projectClient.js'
+import { ProjectClient } from '../__shared/projectClient.js'
 import { describeChecks } from './cli.js'
 
 const describe = describeChecks({ showFailingOnly: false })
