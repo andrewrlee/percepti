@@ -1,4 +1,5 @@
 import c from 'ansi-colors'
+import { format } from 'date-fns'
 
 const levelToColor = { success: 'bgGreen', pending: 'bgYellow', failure: 'bgRedBright', error: 'bgRedBright' }
 
@@ -14,7 +15,7 @@ const describePull = (pull) => {
   return `
 \t${c.bold('Title:')} ${title}
 \t${c.bold('By:')} ${user}
-\t${c.bold('Created:')} ${createdAt} ${createdAt !== updatedAt ? `(${updatedAt})` : ''}
+\t${c.bold('Created:')} ${format(createdAt, 'yyyy-MM-dd HH:mm')} ${createdAt.getTime() !== updatedAt.getTime() ? `(Updated: ${format(updatedAt, 'yyyy-MM-dd HH:mm')})` : ''}
 \t${c.bold('Status:')} ${describeStatuses(statuses)}
 \t${c.grey(url)}`
 }

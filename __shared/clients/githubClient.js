@@ -1,9 +1,10 @@
+import { parseISO } from 'date-fns'
 import superagent from 'superagent'
 
 const apiRoot = 'https://api.github.com'
 
 export class GithubClient {
-  constructor ({ owner, token }) {
+  constructor({ owner, token }) {
     this.owner = owner
     this.token = token
   }
@@ -52,7 +53,7 @@ export class GithubClient {
     statuses_url: statusUrl
   }) => {
     const statuses = await this.#getStatuses(statusUrl)
-    return { title, user: user.login, url, createdAt, updatedAt, statuses }
+    return { title, user: user.login, url, createdAt: parseISO(createdAt), updatedAt: parseISO(updatedAt), statuses }
   }
 
   getPullRequests = async (repo, owner = this.owner) => {
