@@ -1,3 +1,4 @@
+import { parseISO } from 'date-fns'
 import superagent from 'superagent'
 
 const apiRoot = 'https://circleci.com/api/v2'
@@ -25,7 +26,7 @@ export class CircleClient {
         project_slug: slug
       } = body.items[0]
       const url = `https://app.circleci.com/pipelines/${slug}/${number}/workflows/${id}`
-      return { id, name, status, number, started, stopped, url }
+      return { id, name, status, number, started: parseISO(started), stopped, url }
     })
 
   getJobs = async (id) =>
@@ -45,7 +46,7 @@ export class CircleClient {
 
     const pipeline = (items || [])
       .filter((p) => p.trigger.type === 'schedule')
-      .map(({ id, createdAt, number, status }) => ({ id, createdAt, number, status }))[0]
+      .map(({ id }) => ({ id }))[0]
 
     const workflow = await this.getWorkflow(pipeline.id)
     const jobs = await this.getJobs(workflow.id)

@@ -10,35 +10,34 @@ import showDeploymentRadiator from './deploymentRadiator/index.js'
 const config = JSON.parse(fs.readFileSync('./config.json'))
 
 const operations = {
-    'List failing scheduled builds': () => listFailingSheduledJobs(config),
-    'List PRs': () => listPrs(config),
-    'List tickets to test': () => listTicketsToTest(config),
-    'List failing health checks': () => listFailingHealthchecks(config),
-    'Show deployment radiator': () => showDeploymentRadiator(config)
+  'List failing scheduled builds': () => listFailingSheduledJobs(config),
+  'List PRs': () => listPrs(config),
+  'List tickets to test': () => listTicketsToTest(config),
+  'List failing health checks': () => listFailingHealthchecks(config),
+  'Show deployment radiator': () => showDeploymentRadiator(config)
 }
 
 const askForOperation = () => new enquirer.AutoComplete({
-    name: 'operation',
-    message: 'Run:',
-    limit: 10,
-    initial: 0,
-    choices: Object.keys(operations)
-});
+  name: 'operation',
+  message: 'Run:',
+  limit: 10,
+  initial: 0,
+  choices: Object.keys(operations)
+})
 
-const askForAgain = () => new enquirer.Toggle({ message: 'Again?', enabled: 'Yes', disabled: 'No' });
-
+const askForAgain = () => new enquirer.Toggle({ message: 'Again?', enabled: 'Yes', disabled: 'No' })
 
 while (true) {
-    try {
-        const answer = await askForOperation().run()
-        await operations[answer]()
+  try {
+    const answer = await askForOperation().run()
+    await operations[answer]()
 
-        const again = await askForAgain().run()
-        if (!again) {
-            break
-        }
-    } catch (error) {
-        console.log(error)
-        break
+    const again = await askForAgain().run()
+    if (!again) {
+      break
     }
+  } catch (error) {
+    console.log(error)
+    break
+  }
 }

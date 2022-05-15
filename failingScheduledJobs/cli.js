@@ -1,19 +1,16 @@
 import c from 'ansi-colors'
+import { formatRelative } from 'date-fns'
 
-const describeRun = (run) => {
+const describeRun = (name, run) => {
   const status = (status) => (status === 'failed' ? c.bgRedBright(' ') : c.bgGreen(' '))
   const [workflow, jobs] = run
-  const output = `${workflow.started} ${jobs.map((job) => `${status(job.status)}`).join('')}`
-
-  if (workflow.status !== 'success') {
-    return (
-      output + `\n${c.gray(workflow.url)}`
-    )
-  }
-  return output
+  const output = `${c.bold(name)}: ${jobs.map((job) => status(job.status)).join('')}`
+  const date = formatRelative(workflow.started, new Date())
+  const url = c.gray(workflow.url)
+  return [output, date, url].join('\n')
 }
 
 export const describe = ([name, run]) => ({
-  description: `${c.bold(name)}: ${describeRun(run)}`,
+  description: describeRun(name, run),
   isSuccess: run[0].status === 'success'
 })
