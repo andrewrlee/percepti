@@ -9,7 +9,6 @@ const get = async (url) =>
     .then((res) => res.body)
 
 export class ServiceClient {
-
   #isHealthy = (check) => check.healthy === true || check.status === 'UP'
 
   #getComponents = (check) => {
@@ -51,7 +50,7 @@ export class ServiceClient {
         daysSince: intervalToDuration({
           start: prevEnvVersion.date,
           end: thisEnvVersion.date
-        }).days,
+        }).days
       }]
     })
   }

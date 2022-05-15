@@ -1,7 +1,7 @@
 import superagent from 'superagent'
 
 export class JiraClient {
-  constructor({ username, token, baseUrl, project }) {
+  constructor ({ username, token, baseUrl, project }) {
     this.username = username
     this.token = token
     this.baseUrl = baseUrl
@@ -20,13 +20,13 @@ export class JiraClient {
   transformIssue = ({ key: number, fields: { updated, summary } }) => ({
     number,
     updated,
-    summary,
+    summary
   })
 
   getTicketsToTest = async () => {
-    const body = await this.post(`/2/search`, {
+    const body = await this.post('/2/search', {
       jql: `project = ${this.project} AND status = "Ready for Test" order by updatedDate ASC`,
-      maxResults: 3,
+      maxResults: 3
     })
 
     return body.issues.map(this.transformIssue)

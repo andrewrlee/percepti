@@ -1,7 +1,7 @@
 import c from 'ansi-colors'
 
 const describeRun = (run) => {
-  const status = (status) => (status === 'failed' ? c.bgRedBright(` `) : c.bgGreen(` `))
+  const status = (status) => (status === 'failed' ? c.bgRedBright(' ') : c.bgGreen(' '))
   const [workflow, jobs] = run
   const output = `${workflow.started} ${jobs.map((job) => `${status(job.status)}`).join('')}`
 

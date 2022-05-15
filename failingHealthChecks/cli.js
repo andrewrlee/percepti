@@ -2,7 +2,7 @@ import c from 'ansi-colors'
 
 export const describe = ([name, checks]) => {
   const components = checks.components
-  const status = (isHealthy) => (!isHealthy ? c.bgRedBright(` `) : c.bgGreen(` `))
+  const status = (isHealthy) => (!isHealthy ? c.bgRedBright(' ') : c.bgGreen(' '))
 
   const headline = `${c.bold(name)} ${components.map((check) => `${status(check.isHealthy)}`).join('')}`
 

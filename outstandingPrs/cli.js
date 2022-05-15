@@ -14,7 +14,7 @@ const describePull = (pull) => {
   return `
 \t${c.bold('Title:')} ${title}
 \t${c.bold('By:')} ${user}
-\t${c.bold('Created:')} ${createdAt} ${createdAt != updatedAt ? `(${updatedAt})` : ``}
+\t${c.bold('Created:')} ${createdAt} ${createdAt !== updatedAt ? `(${updatedAt})` : ''}
 \t${c.bold('Status:')} ${describeStatuses(statuses)}
 \t${c.grey(url)}`
 }
