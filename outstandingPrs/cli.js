@@ -16,9 +16,8 @@ const describePull = (pull) => {
 \t${c.bold('By:')} ${user}
 \t${c.bold('Created:')} ${createdAt} ${createdAt != updatedAt ? `(${updatedAt})` : ``}
 \t${c.bold('Status:')} ${describeStatuses(statuses)}
-\t${c.grey(url)}
-`
+\t${c.grey(url)}`
 }
 
-export const describePulls = ([name, pulls]) =>
-  `\n${c.bold(name)}: ${pulls.map((pull) => describePull(pull)).join('\n')}\n`
+export const describe = ([name, pulls]) =>
+  `${c.bold(name)}: ${pulls.map((pull) => describePull(pull)).join('\n')}`

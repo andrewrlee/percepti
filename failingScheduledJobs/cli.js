@@ -13,8 +13,7 @@ const describeRun = (run) => {
   return output
 }
 
-export const describeJobs = ([name, runs]) =>
-  `${
-    runs.filter(run => run[0].status !== 'success')
-  .map((run) => `${c.bold(name)}: ${describeRun(run)}`)
-  .join('\n')}`
+export const describe = ([name, run]) => ({
+  description: `${c.bold(name)}: ${describeRun(run)}`,
+  isSuccess: run[0].status === 'success'
+})

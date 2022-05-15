@@ -10,20 +10,20 @@ const get = async (url) =>
 
 export class ServiceClient {
 
-  #isHealth = (check) => check.healthy === true || check.status === 'UP'
+  #isHealthy = (check) => check.healthy === true || check.status === 'UP'
 
   #getComponents = (check) => {
     const components = check.checks || check.api || check.components
     return Object.entries(components).map(([name, value]) => {
       const status = value.status || value
-      return { name, status: status === 'OK' || status === 'UP' }
+      return { name, isHealthy: status === 'OK' || status === 'UP' }
     })
   }
 
   getHealthCheck = async (url) => {
     const healthCheckUrl = `${url}/health`
     const check = await get(healthCheckUrl)
-    return { url: healthCheckUrl, status: await this.#isHealth(check), components: await this.#getComponents(check) }
+    return { url: healthCheckUrl, isHealthy: await this.#isHealthy(check), components: await this.#getComponents(check) }
   }
 
   getHealthChecks = async (projects) => {
