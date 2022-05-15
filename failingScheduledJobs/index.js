@@ -1,6 +1,6 @@
 import c from 'ansi-colors'
 
-import { CircleClient } from '../__shared/circleClient.js'
+import { CircleClient } from '../__shared/clients/circleClient.js'
 import { describeJobs } from './cli.js'
 
 export default async function run(config, projects) {
