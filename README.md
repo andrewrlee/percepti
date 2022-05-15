@@ -7,9 +7,9 @@ DONE
 * List outstanding PRs
 * List Jira tickets to test
 * List failing health checks
+* Deployment radiator
 
 TODO
-* Deployment radiator
 * Deployment tools
 
 ???

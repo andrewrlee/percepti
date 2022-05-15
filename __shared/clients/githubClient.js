@@ -3,7 +3,7 @@ import superagent from 'superagent'
 const apiRoot = 'https://api.github.com'
 
 export class GithubClient {
-  constructor({ owner, token }) {
+  constructor ({ owner, token }) {
     this.owner = owner
     this.token = token
   }
@@ -15,6 +15,7 @@ export class GithubClient {
       .set('Accept', 'application/vnd.github.v3+json')
       .set('User-Agent', 'superagent')
       .then((res) => res.body)
+
   getAbsolute = async (url) =>
     await superagent
       .get(url)
@@ -35,8 +36,8 @@ export class GithubClient {
           context: s.context,
           created_at: s.created_at,
           state: s.state,
-          description: s.description,
-        },
+          description: s.description
+        }
       ]
       return acc
     }, {})
@@ -48,7 +49,7 @@ export class GithubClient {
     title,
     created_at: createdAt,
     updated_at: updatedAt,
-    statuses_url: statusUrl,
+    statuses_url: statusUrl
   }) => {
     const statuses = await this.#getStatuses(statusUrl)
     return { title, user: user.login, url, createdAt, updatedAt, statuses }

@@ -1,13 +1,11 @@
-import c from 'ansi-colors'
+import { describe } from './cli.js'
+import { GithubClient } from '../__shared/clients/githubClient.js'
+import { render } from '../__shared/utils.js'
 
-import { describePulls } from './cli.js'
-import { GithubClient } from '../__shared/githubClient.js'
-
-export default async function run(config, projects) {
-  console.log(c.bold('OUTSTANDING PULL REQUESTS'))
+export default async function run (config, projects) {
   const prs = await new GithubClient(config.github).getPullRequestsForProjects(Object.keys(projects))
-
-  prs.forEach((pr) => {
-    console.log(describePulls(pr))
+  render({
+    name: 'OUTSTANDING PULL REQUESTS',
+    items: prs.map(describe)
   })
 }

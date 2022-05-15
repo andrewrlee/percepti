@@ -9,7 +9,7 @@ const get = async (path) =>
     .then((res) => res.body)
 
 export class CircleClient {
-  constructor({ slugPrefix }) {
+  constructor ({ slugPrefix }) {
     this.slugPrefix = slugPrefix
   }
 
@@ -22,7 +22,7 @@ export class CircleClient {
         pipeline_number: number,
         created_at: started,
         stopped_at: stopped,
-        project_slug: slug,
+        project_slug: slug
       } = body.items[0]
       const url = `https://app.circleci.com/pipelines/${slug}/${number}/workflows/${id}`
       return { id, name, status, number, started, stopped, url }
@@ -36,31 +36,24 @@ export class CircleClient {
         status,
         number,
         started,
-        stopped,
-      })),
+        stopped
+      }))
     )
 
-  getScheduledJobs = async (name, previous = 1, slugPrefix = this.slugPrefix) => {
+  getScheduledJobs = async (name, slugPrefix = this.slugPrefix) => {
     const { items, next_page_token } = await get(`/project/${slugPrefix}/${name}/pipeline`)
 
-    const pipelines = (items || [])
+    const pipeline = (items || [])
       .filter((p) => p.trigger.type === 'schedule')
-      .map(({ id, createdAt, number, status }) => ({ id, createdAt, number, status }))
-      .slice(0, previous)
+      .map(({ id, createdAt, number, status }) => ({ id, createdAt, number, status }))[0]
 
-    const runs = await Promise.all(
-      pipelines.map(async (pipeline) => {
-        const workflow = await this.getWorkflow(pipeline.id)
-        const jobs = await this.getJobs(workflow.id)
-        return [workflow, jobs]
-      }),
-    )
-
-    return [name, runs]
+    const workflow = await this.getWorkflow(pipeline.id)
+    const jobs = await this.getJobs(workflow.id)
+    return [name, [workflow, jobs]]
   }
 
-  getScheduledJobsForProjects = async (projects, previous = 1, slugPrefix) => {
-    const jobs = await Promise.all(projects.map((p) => this.getScheduledJobs(p, previous, slugPrefix)))
+  getScheduledJobsForProjects = async (projects, slugPrefix) => {
+    const jobs = await Promise.all(projects.map((p) => this.getScheduledJobs(p, slugPrefix)))
     const byName = ([name1], [name2]) => name1.localeCompare(name2)
     return jobs.sort(byName)
   }
