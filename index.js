@@ -25,7 +25,7 @@ const askForOperation = () => new enquirer.AutoComplete({
   choices: Object.keys(operations)
 })
 
-const askForAgain = () => new enquirer.Toggle({ message: 'Again?', enabled: 'Yes', disabled: 'No' })
+const askForAgain = () => new enquirer.Confirm({ message: 'Again?', initial: true })
 
 while (true) {
   try {
