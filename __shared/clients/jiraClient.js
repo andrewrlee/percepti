@@ -1,3 +1,4 @@
+import { parseISO } from 'date-fns'
 import superagent from 'superagent'
 
 export class JiraClient {
@@ -19,12 +20,13 @@ export class JiraClient {
 
   transformIssue = ({ key: number, fields: { updated, summary } }) => ({
     number,
-    updated,
-    summary
+    updated: parseISO(updated),
+    summary,
+    url: `${this.baseUrl}/browse/${number}`
   })
 
   getTicketsToTest = async () => {
-    const body = await this.post('/2/search', {
+    const body = await this.post('/rest/api/2/search', {
       jql: `project = ${this.project} AND status = "Ready for Test" order by updatedDate ASC`,
       maxResults: 3
     })

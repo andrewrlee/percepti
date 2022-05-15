@@ -36,7 +36,7 @@ To run, a `config.json` file needs to be present in project root, with the follo
   "jira": {
     "username": "some jira email address",
     "token": "some token",
-    "baseUrl": "https://someorg.atlassian.net/rest/api",
+    "baseUrl": "https://someorg.atlassian.net",
     "project": "ABC"
   },
   "projects": {
