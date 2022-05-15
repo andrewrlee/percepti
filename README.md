@@ -1,6 +1,6 @@
 # Percepti
 
-A few different tools to help with situational awareness
+A CLI tool to run scripts to help with situational awareness
 
 DONE
 * List failing scheduled builds
@@ -15,6 +15,9 @@ TODO
 ???
 * Querying app insights?
 
+# To Run
+
+`npm start`
 
 ## Config
 

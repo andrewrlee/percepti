@@ -1,4 +1,5 @@
 import fs from 'fs'
+import enquirer from 'enquirer'
 
 import listPrs from './outstandingPrs/index.js'
 import listFailingSheduledJobs from './failingScheduledJobs/index.js'
@@ -8,10 +9,36 @@ import showDeploymentRadiator from './deploymentRadiator/index.js'
 
 const config = JSON.parse(fs.readFileSync('./config.json'))
 
-const projects = config.projects
+const operations = {
+    'List failing scheduled builds': () => listFailingSheduledJobs(config),
+    'List PRs': () => listPrs(config),
+    'List tickets to test': () => listTicketsToTest(config),
+    'List failing health checks': () => listFailingHealthchecks(config),
+    'Show deployment radiator': () => showDeploymentRadiator(config)
+}
 
-await listFailingSheduledJobs(config, projects)
-await listPrs(config, projects)
-await listTicketsToTest(config, projects)
-await listFailingHealthchecks(config, projects)
-await showDeploymentRadiator(config, projects)
+const askForOperation = () => new enquirer.AutoComplete({
+    name: 'operation',
+    message: 'Run:',
+    limit: 10,
+    initial: 0,
+    choices: Object.keys(operations)
+});
+
+const askForAgain = () => new enquirer.Toggle({ message: 'Again?', enabled: 'Yes', disabled: 'No' });
+
+
+while (true) {
+    try {
+        const answer = await askForOperation().run()
+        await operations[answer]()
+
+        const again = await askForAgain().run()
+        if (!again) {
+            break
+        }
+    } catch (error) {
+        console.log(error)
+        break
+    }
+}

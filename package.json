@@ -13,6 +13,7 @@
   "dependencies": {
     "ansi-colors": "^4.1.1",
     "date-fns": "^2.28.0",
+    "enquirer": "^2.3.6",
     "superagent": "^7.1.3"
   }
 }
