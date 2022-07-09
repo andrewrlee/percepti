@@ -8,9 +8,13 @@ DONE
 * List Jira tickets to test
 * List failing health checks
 * Show Deployment radiator
+* Show where inflight tickets are deployed
 
 TODO
-* Deployment tools
+* typescript?
+* check everything
+* tidy!
+* better cli - allow running single projects
 
 ???
 * Querying app insights?
@@ -52,3 +56,8 @@ To run, a `config.json` file needs to be present in project root, with the follo
   }
 }
 ```
+
+
+### Known issues
+
+deployment radiator current only compares build numbers where really it should check pipelines?

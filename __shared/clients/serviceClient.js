@@ -6,6 +6,7 @@ const get = async (url) =>
   await superagent
     .get(url)
     .set('Accept', 'application/json')
+    .ok(() => true)
     .then((res) => res.body)
 
 export class ServiceClient {
@@ -31,9 +32,9 @@ export class ServiceClient {
     return Promise.all(checks)
   }
 
-  getVersionInfo = async (urls, path) => {
-    const versions = Object.entries(urls).map(async ([name, url]) => {
-      const info = await get(`${url}${path}`)
+  getVersionInfo = async ({ envs, pathToInfo }) => {
+    const versions = Object.entries(envs).map(async ([name, url]) => {
+      const info = await get(`${url}${pathToInfo}`)
       const versionNumber = info.build.version || info.build.buildNumber
       const [, date, number, gitRef] = versionNumber.match(/^(.*?)\.(.*?)\.(.*)$/)
       return [name, { version: versionNumber, date: Date.parse(date), number: parseInt(number, 10), gitRef }]
@@ -56,8 +57,7 @@ export class ServiceClient {
   }
 
   getVersionInfoForProjects = async (projects) => {
-    const checks = Object.entries(projects).map(async ([name, { pathToInfo, envs }]) => [name, await this.getVersionInfo(envs, pathToInfo)])
-
+    const checks = Object.entries(projects).map(async ([name, urls]) => [name, await this.getVersionInfo(urls)])
     return Promise.all(checks)
   }
 }

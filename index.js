@@ -6,6 +6,7 @@ import listFailingSheduledJobs from './failingScheduledJobs/index.js'
 import listTicketsToTest from './ticketsToTest/index.js'
 import listFailingHealthchecks from './failingHealthChecks/index.js'
 import showDeploymentRadiator from './deploymentRadiator/index.js'
+import deploymentTool from './deploymentTool/index.js'
 
 const config = JSON.parse(fs.readFileSync('./config.json'))
 
@@ -14,7 +15,8 @@ const operations = {
   'List PRs': () => listPrs(config),
   'List tickets to test': () => listTicketsToTest(config),
   'List failing health checks': () => listFailingHealthchecks(config),
-  'Show deployment radiator': () => showDeploymentRadiator(config)
+  'Show deployment radiator': () => showDeploymentRadiator(config),
+  'Run deployment tool': () => deploymentTool(config),
 }
 
 const askForOperation = () => new enquirer.AutoComplete({
